@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html ng-app="store">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>Store Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js" data-require="angularjs@1.4" data-semver="1.4.4"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-cookies.min.js" data-require="angularjs@1.4" data-semver="1.4.4"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.min.js" data-require="angularjs@1.4" data-semver="1.4.4"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js" data-require="angularjs@1.4" data-semver="1.4.4"></script>
+    <script src="js/cartController.js" type="text/javascript"></script>
+   	<link href="css/main.css" rel="stylesheet" />
+    
+  </head>
+
+  <body ng-controller="StoreController">
+  <!-- Navbar -->
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">QuickCart</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Electronics</a></li>
+      <li><a href="#">Men</a></li>
+      <li><a href="#">Women</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log-out</a></li>
+      <li ng-click="showCart()"><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span><span class="badge">{{fetchData.length}}</span></a></li>  
+    </ul>
+      
+  </div>
+</nav>
+  
+  		
+    <div class="container">
+    	<div>
+ 				 <div class="pull-left">
+  				 <h1>Store</h1>
+  				 </div>
+	  			<div class="pull-right">
+				<button ng-click="saveCartDetails()" class="btn btn-default">Continue Shoping</button>	 		    </div>
+	  			<div class="clearfix"></div>
+			</div>
+      <div>
+        <ul class="list-group text-center">
+          <li class="col-xs-6 col-md-3 col-sm-3 col-lg-3 list-group-item" ng-repeat="product in products">
+            <figure>
+              <img width="100" height="100" src="https://lh3.googleusercontent.com/-M_NiblLM-0A/Vh9eSY5LIeI/AAAAAAAAB_I/VBeV8X1V2HM/s144-Ic42/mac.jpg" />
+              <figcaption>
+                  {{product.name}}  
+				<h3>{{product.price | currency}}</h3>
+              </figcaption>
+            </figure>
+            <input class="btn btn-success" type="button" ng-click="addItemToCart(product)" value="Add To Cart" />
+          </li>
+        </ul> 
+         <modal visible="showModal">
+  		</modal>
+        
+        
+	<div ng-show="cart.length !== 0">
+	    <h1>Items In Cart</h1>
+    	<table class="table cartTable">
+        <tr>
+            
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Cost</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+        <tr ng:repeat="item in cart">
+            <td><span>{{item.name}}</span></td> 
+            <td><button type="button" class="btn" ng-click="increase(item);"/>+</button><span>{{item.count}}</span><button type="button" class="btn" ng-click="decrease(item)"/>-</button></td>          
+            <td><span>{{item.price | currency}}</span></td>
+            <td>{{item.count * item.price | currency}}</td>
+            <td>
+            <td><a ng-click="removeItem($index)" id = "removeItem" class="glyphicon glyphicon-trash" href="#" ></a></td>
+        </tr>
+        </table> 
+        
+        <table  class="table cartTable">
+        <tr class="checkoutrow">
+    		 <td>Total:</td>
+            <td>{{getTotal() | currency}}</td><td colspan="5" class="checkout"><button class="btn btn-default" id="submitbtn">Checkout Now!</button></td>
+  		</tr>  
+        </table>
+      </div>
+    </div>
+  </body>
+
+</html>
